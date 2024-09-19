@@ -1,0 +1,29 @@
+# กำหนดเวอร์ชันของ Docker Compose file format ที่ใช้
+version: "3.8"
+
+# เริ่มต้นส่วนของการกำหนด services ที่จะรันใน Docker Compose
+services:
+  # ชื่อของ service ที่จะรัน
+  app:
+    # กำหนดการตั้งค่าในการสร้าง image
+    build:
+      # ตำแหน่งที่ Dockerfile และไฟล์อื่น ๆ ที่จำเป็นอยู่ (ในที่นี้คือโฟลเดอร์ปัจจุบัน)
+      context: .
+      # ชื่อของ Dockerfile ที่จะใช้ในการสร้าง image (ค่าเริ่มต้นคือ `Dockerfile`)
+      dockerfile: Dockerfile
+
+    # ตั้งชื่อและ tag ของ image ที่สร้างขึ้น ซึ่งสามารถใช้เพื่อระบุ image ที่จะรัน
+    image: users_apis:v1
+
+    # กำหนดการแมพพอร์ตจาก container ไปยังโฮสต์
+    ports:
+      # แมพพอร์ต 8000 ของ container ไปยังพอร์ต 8000 ของโฮสต์
+      - "8000:8000"
+
+    # ระบุไฟล์ที่ใช้โหลด environment variables
+    env_file:
+      # โหลด environment variables จากไฟล์ `.env` เพื่อใช้ใน container
+      - .env
+
+    # ตั้งชื่อ container ให้ตรงกับที่เรากำหนด
+    container_name: test
